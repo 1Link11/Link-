@@ -6,7 +6,7 @@ typedef struct LNode* List;/*指向结构体的指针List*/
 struct LNode			   /*创建结构体包含整型数组存放数据，以及最后一位元素下标last*/
 {
 	int Data[MAXSISE];
-	int Last;
+	int Last;			   /*这里的last是数组最后一位元素的下标！！！*/
 };
 struct LNode L;			   /*创建LNode结构体元素L*/
 List PtrL;				   /*创建指向结构体LNode指针PtrL*/

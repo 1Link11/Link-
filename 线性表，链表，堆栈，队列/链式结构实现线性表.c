@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include<stdio.h>
+#include <stdlib.h>
 /*创建链表*/
 typedef struct LNode* List;
 struct LNode {
@@ -12,8 +13,8 @@ List PtrL;
 int Length(List PtrL)
 {
 	List p = PtrL;/*p指向表第一个节点*/
-	int j = 0;
-	while (p) {
+	int j = 0;	  /*j是做计数器*/
+	while (p) {	  /*P直接做判断条件，p指向NULL是跳出while*/
 		p = p->Next;
 		j++;
 	}
@@ -24,7 +25,7 @@ List Findkth(int k, List PrtL)
 {
 	List p = PrtL;
 	int i = 1;
-	while (p != NULL && i < k) {
+	while (p != NULL && i < k) {/*前面确保在链表里，后边在序号i等于序号k时跳出*/
 		p = p->Next;
 		i++;
 	}
@@ -37,8 +38,8 @@ List Findkth(int k, List PrtL)
 List Find(int x, List PtrL)
 {
 	List p = PtrL;
-	while (p != NULL && p->Data != x)
-		p->Data;
+	while (p != NULL && p->Data != x)/*前面确保在链表里，后面在结点值与寻找值相等时跳出*/
+		p=p->Next;
 	return p;
 }
 /*插入*/
@@ -46,12 +47,13 @@ List insert(int x, int i, List PtrL)
 {
 	List p, s;
 	if (i == 1) {/*放在链表表头*/
-		s = (List)malloc(sizeof(struct LNode));
+		s = (List)malloc(sizeof(struct LNode));/*前面定义了结构体LNode的指针list，用malloc函数申请一个LNode结构体的空间，并把指向这片内存空间的指针赋予s*/
 		s->Data = x;
 		s->Next = PtrL;
+		return s;
 	}
 	p = Findkth(i - 1, PtrL);/*通过我们定义的元素来寻找插入的地点*/
-	if (p == NULL) {
+	if (p == NULL) {		 /*i-1不存在不能插入*/
 		printf("参数i不对");
 		return NULL;
 	}
@@ -69,12 +71,12 @@ List Delete(int i, List PtrL)
 	List p, s;
 	if (i == 1) {/*先判断是不是删除第一位元素*/
 		s = PtrL;
-		if (PtrL != NULL)/*先判断下头元素是不是没有装填元素*/
-			PtrL = PtrL->Next;
+		if (PtrL != NULL)     /*先判断下头元素是不是没有装填元素*/
+			PtrL = PtrL->Next;/*不为空的话指向下一位*/
 		else
-			return NULL;
-		free(s);
-		return PtrL;
+			return NULL;	  /*是空链表的话直接返回NULL*/
+		free(s);			  /*释放内存空间*/
+		return PtrL;		  
 	}
 	p = Findkth(i - 1, PtrL);
 	if (p == NULL) {
@@ -88,7 +90,7 @@ List Delete(int i, List PtrL)
 	{
 		s = p->Next;	  /*s指向第i个节点*/
 		p->Next = s->Next;/*将p从链表中抹除*/
-		free(s);
+		free(s);		  /*释放s指向的内存空间*/
 		return PtrL;
 	}
 		
